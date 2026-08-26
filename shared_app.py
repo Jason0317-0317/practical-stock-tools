@@ -39,7 +39,8 @@ def scanner():
     score = (ret / vol.replace(0, np.nan)).sort_values(ascending=False)
     out = pd.DataFrame({"期間報酬": ret, "年化波動": vol, "風險調整動能": score}).sort_values("風險調整動能", ascending=False)
     st.dataframe(out.style.format("{:.1%}"), width="stretch")
-    st.plotly_chart(px.bar(out.reset_index(), x="index", y="風險調整動能", title="風險調整動能排名"), width="stretch")
+    ranked = out.rename_axis("股票").reset_index()
+    st.plotly_chart(px.bar(ranked, x="股票", y="風險調整動能", title="風險調整動能排名"), width="stretch")
 
 
 def dca():
